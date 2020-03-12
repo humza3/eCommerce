@@ -1,5 +1,7 @@
-const reportName = document.getElementById('card-title');
-const reportDesc = document.getElementById('card-desc');
+const reportName = document.getElementsByClassName('card-title');
+const reportDesc = document.getElementsByClassName('card-text');
+const reportLink = document.getElementsByClassName('card-text');
+
 const URL = 'http://localhost:3000/api/cameras';
 
 // Prepare openweathermap.org request
@@ -19,8 +21,12 @@ apiRequest.onreadystatechange = () => {
 	  reportDesc.textContent = 'Description Not Found!';
     }
     const response = JSON.parse(apiRequest.response);
-    reportName.textContent = response[0].name;
-    reportDesc.textContent = response[0].description;
-	console.log(response);
+	
+	
+	
+	for (var i = 0; i < response.length; i++) {
+		reportName[i].textContent = response[i].name;		
+		reportDesc[i].textContent = response[i].description;
+	}
   }
 };
