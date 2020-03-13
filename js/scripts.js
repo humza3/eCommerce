@@ -1,9 +1,8 @@
 const reportName = document.getElementsByClassName('card-title');
 const reportDesc = document.getElementsByClassName('card-text');
 const reportLink = document.getElementsByClassName('card-link');
-
+const reportImg = document.getElementsByClassName('card-img-top');
 const URL = 'http://localhost:3000/api/cameras';
-
 // Prepare openweathermap.org request
 let apiRequest = new XMLHttpRequest();
 
@@ -17,16 +16,18 @@ let apiRequest = new XMLHttpRequest();
 apiRequest.onreadystatechange = () => {
   if(apiRequest.readyState === 4) {
     if(apiRequest.status = 404) {
-      reportName.textContent = 'Name Not Found!';
-	  reportDesc.textContent = 'Description Not Found!';
-	  reportLink.href = 'Page Not Found!';
-	  
+		reportName.textContent = 'Name Not Found!';
+		reportDesc.textContent = 'Description Not Found!';
+		reportLink.href = 'product.html';
+		reportImg.src = 'images/vcam_1.jpg';	  
     }
     const response = JSON.parse(apiRequest.response);	
-	for (var i = 0; i < response.length; i++) {
+	for (var i = 0; i < response.length; i++) {			
 		reportName[i].textContent = response[i].name;		
 		reportDesc[i].textContent = response[i].description;
-		reportLink[i].href = "product.html&_id=" + response[i]._id;
+		reportLink[i].href = "product.html#" + i;
+		reportImg[i].src = response[i].imageUrl;
 	}
+	
   }
 };

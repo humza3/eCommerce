@@ -6,6 +6,7 @@ const prodLens = document.getElementById('prod-lens');
 const prodId = document.getElementById('prod-id');
 const URL = 'http://localhost:3000/api/cameras';
 
+const i = window.location.hash.substr(1);
 // Prepare openweathermap.org request
 let apiRequest = new XMLHttpRequest();
 
@@ -19,21 +20,20 @@ let apiRequest = new XMLHttpRequest();
 apiRequest.onreadystatechange = () => {
   if(apiRequest.readyState === 4) {
     if(apiRequest.status = 404) {
-		let i = 0;
 		prodName.textContent = 'Name Not Found!';
-		prodImg.src = 'img/vcam_1.jpg';	  
+		prodImg.src = 'images/vcam_1.jpg';	  
 		prodPrice.textContent = 'Price Not Found!';
 		prodDesc.textContent = 'Description Not Found!';
 		prodLens.textContent = 'Lenses Not Found!';
-		prodID.href = 'cart.html';
+		prodId.href = 'cart.html';
 	  
     }
 		const response = JSON.parse(apiRequest.response);	
-		prodName.textContent = response[i].name;	
-		prodImg.src = response[i].imgURL;	  
-		prodPrice.textContent = response[i].price;
+		prodName.textContent = response[i].name; 
+		prodPrice.textContent = "Price: £" + response[i].price;
 		prodDesc.textContent = response[i].description;
 		prodLens.textContent = response[i].lenses;
-		prodId.href = 'cart.html&_id=' + response[i]._id;
+		prodId.href = 'cart.html#' + [i];	
+		prodImg.src = response[i].imageUrl;	 
   }
 };
