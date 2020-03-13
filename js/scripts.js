@@ -22,8 +22,6 @@ apiRequest.onreadystatechange = () => {
 	  reportLink.href = 'Page Not Found!';
 	  
     }
-	var x = location.href;
-	console.log(x);
     const response = JSON.parse(apiRequest.response);	
 	for (var i = 0; i < response.length; i++) {
 		reportName[i].textContent = response[i].name;		
