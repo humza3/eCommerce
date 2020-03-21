@@ -4,12 +4,11 @@ const prodPrice = document.getElementById('prod-price');
 const prodDesc = document.getElementById('prod-desc');
 const prodLens = document.getElementById('prod-lens');
 const prodId = document.getElementById('prod-id');
-const URL = 'http://localhost:3000/api/cameras';
+const x = window.location.hash.substr(1);
+const URL = 'http://localhost:3000/api/cameras/' + x;
 
-const i = window.location.hash.substr(1);
 // Prepare openweathermap.org request
 let apiRequest = new XMLHttpRequest();
-
 /* 
  * Capture and handle form submit event
  * Prevent default behaviour, prepare and send API request
@@ -29,11 +28,11 @@ apiRequest.onreadystatechange = () => {
 	  
     }
 		const response = JSON.parse(apiRequest.response);	
-		prodName.textContent = response[i].name; 
-		prodPrice.textContent = "Price: £" + response[i].price;
-		prodDesc.textContent = response[i].description;
-		prodLens.textContent = response[i].lenses;
-		prodId.href = 'cart.html#' + [i];	
-		prodImg.src = response[i].imageUrl;	 
+		prodName.textContent = response.name; 
+		prodPrice.textContent = "Price: £" + response.price;
+		prodDesc.textContent = response.description;
+		prodLens.textContent = response.lenses;
+		prodId.href = 'cart.html#' + response._id;	
+		prodImg.src = response.imageUrl;	 
   }
 };

@@ -1,9 +1,8 @@
 const confName = document.getElementById('conf-title');
 const confImg = document.getElementById('conf-img');
 const confPrice = document.getElementById('conf-price');
-const URL = 'http://localhost:3000/api/cameras';
-
-const i = window.location.hash.substr(1);
+const x = window.location.hash.substr(1);
+const URL = 'http://localhost:3000/api/cameras/' + x;
 // Prepare openweathermap.org request
 let apiRequest = new XMLHttpRequest();
 
@@ -23,8 +22,8 @@ apiRequest.onreadystatechange = () => {
 	  
     }
 	const response = JSON.parse(apiRequest.response);	
-		confName.textContent = response[i].name; 
-		confPrice.textContent = "Price: £" + response[i].price;
-		confImg.src = response[i].imageUrl;	 
+		confName.textContent = response.name; 
+		confPrice.textContent = "Price: £" + response.price;
+		confImg.src = response.imageUrl;	 
   }
 };
