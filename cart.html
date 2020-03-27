@@ -28,24 +28,24 @@
 					</div>
 				</div>
 				<div class="col-6">
-				<form id="form_1" novalidate success-msg="Your message has been sent." fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!">
+				<form id="form_1" action="confirmation.html" novalidate success-msg="order-confirmed" fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!">
 					<div class="form-group">
-						<label for="first-name">
+						<label for="firstName">
 							First Name
 						</label>
-						<input id="first-name" class="form-control" required />
+						<input id="firstName" class="form-control" required />
 					</div>
 					<div class="form-group">
-						<label for="last-name">
+						<label for="lastName">
 							Last Name
 						</label>
-						<input id="last-name" class="form-control" required />
+						<input id="lastName" class="form-control" required />
 					</div>
 					<div class="form-group">
 						<label for="Address">
 							Address
 						</label>
-						<input id="Address" class="form-control" required />
+						<input id="address" class="form-control" required />
 					</div>
 					<div class="form-group">
 						<label for="city">
@@ -59,7 +59,7 @@
 						</label>
 						<input id="email" class="form-control" type="email" required />
 					</div>
-					<button class="btn btn-outline-success my-2 my-sm-0" id="cart-id" href="confirmation.html" type="submit">
+					<button class="btn btn-outline-success my-2 my-sm-0" id="cart-submit" type="submit">
 						Buy Now
 					</button>
 				</form>
