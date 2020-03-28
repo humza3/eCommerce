@@ -10,12 +10,14 @@ const lastNameInput = document.getElementById('lastName');
 const addressInput = document.getElementById('address');
 const cityInput = document.getElementById('city');
 const emailInput = document.getElementById('email');
-const x = window.location.hash.substr(1);
-const URL = 'http://localhost:3000/api/cameras/' + x;
+const URL = 'http://localhost:3000/api/cameras/';
+
+const items = { ...localStorage };
+console.log(items);
 
 
-if (x === "") {
-	console.log(x);
+
+if (items === "") {
 	cartTitle.textContent = 'There are no items in your cart';
 	cartCard.remove();
 	cartForm.remove();
@@ -33,47 +35,57 @@ if (x === "") {
 	apiRequest.send();
 
 	apiRequest.onreadystatechange = () => {
-	if(apiRequest.readyState === 4) {
-	if(apiRequest.status = 404) {
-		cartName.textContent = 'Name Not Found!';
-		cartImg.src = 'images/vcam_1.jpg';	  
-		cartPrice.textContent = 'Price Not Found!';
-		cartSubmit.href = 'confirmation.html';
-	  
+		if(apiRequest.readyState === 4) {
+			if(apiRequest.status = 404) {
+				cartName.textContent = 'Name Not Found!';
+				cartImg.src = 'images/vcam_1.jpg';	  
+				cartPrice.textContent = 'Price Not Found!';
+				cartSubmit.href = 'confirmation.html';
+			  
+			}
+			let response = JSON.parse(apiRequest.response);	
+			for (var j = 0; j < items.length; j++) {
+				if (response._id === reponse._id) {
+					for (var i = 0; i < items.length; i++) {			
+						cartName[i].textContent = response[i].name;		
+						cartPrice[i].textContent = "product.html#" + response[i]._id;
+						cartImg[i].src = response[i].imageUrl;
+					}
+				} 
+			}
+		};
 	}
-	let response = JSON.parse(apiRequest.response);	
-	cartName.textContent = response.name; 
-	cartPrice.textContent = "Price: £" + response.price;
-	cartSubmit.href = 'confirmation.html#' + response._id;	
-	cartImg.src = response.imageUrl;	 
-	}
-	};
 }
-
+	
 cartSubmit.addEventListener('click', ($event) => {
   $event.preventDefault();
-  const post = {
+  const postData = {
+	
     firstName: firstNameInput.value,
     lastName: lastNameInput.value,
 	address: addressInput.value,
 	city: cityInput.value,
 	email: emailInput.value
   };
+  makeRequest(postData);
 });
 
-function makeRequest(data) {
+function makeRequest(data) {	
   return new Promise((resolve, reject) => {
+	let apiRequest = new XMLHttpRequest();	
     apiRequest.open('POST', URL + '/order');
     apiRequest.onreadystatechange = () => {
       if (apiRequest.readyState === 4) {
         if (apiRequest.status === 201) {
-          resolve(response);
+			console.log(apiRequest.response);
+			resolve(JSON.parse(apiRequest.response));		  
+			cartForm.action = 'confirmation.html#' + JSON.parse(apiRequest.response)._id;
         } else {
-          reject(response);
+			reject(JSON.parse(apiRequest.response));		  
+			console.log("im rejected");
         }
       }
-    };
-	cartForm.action = 'confirmation.html#' + response._id;
+    };	
     apiRequest.setRequestHeader('Content-Type', 'application/json');
     apiRequest.send(JSON.stringify(data));
   });

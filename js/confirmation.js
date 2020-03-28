@@ -1,8 +1,15 @@
 const confName = document.getElementById('conf-title');
 const confImg = document.getElementById('conf-img');
 const confPrice = document.getElementById('conf-price');
+const confTitle = document.getElementById('confirmation');
+const confCard = document.getElementById('conf-card');
 const x = window.location.hash.substr(1);
 const URL = 'http://localhost:3000/api/cameras/' + x;
+
+if (x === "") {
+	confTitle.textContent = 'You have not Purchased an item';
+	confCard.remove();
+} else {
 // Prepare openweathermap.org request
 let apiRequest = new XMLHttpRequest();
 
@@ -27,3 +34,4 @@ apiRequest.onreadystatechange = () => {
 		confImg.src = response.imageUrl;	 
   }
 };
+}
