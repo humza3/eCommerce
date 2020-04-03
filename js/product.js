@@ -5,9 +5,19 @@ const prodDesc = document.getElementById('prod-desc');
 const prodLens = document.getElementById('prod-lens');
 const prodId = document.getElementById('prod-id');
 const prodBody = document.getElementById('prod-body');
-const x = window.location.hash.substr(1);
-const URL = 'http://localhost:3000/api/cameras/' + x;
+//take query parameter id to help display product
+function queryString(obj) {  
+    const result = [];
+    let match;
+    const re = new RegExp('(?:\\?|&)' + obj + '=(.*?)(?=&|$)', 'gi');
+    while ((match = re.exec(document.location.search)) !== null) {
+        result.push(match[1]);
+    }
+    return result;
+}
 
+const x = queryString("id")[0];
+const URL = 'http://localhost:3000/api/cameras/' + x;
 
 if (x === "") {
 	prodName.textContent = 'You have not chosen a product';

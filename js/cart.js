@@ -11,26 +11,26 @@ const addressInput = document.getElementById('address');
 const cityInput = document.getElementById('city');
 const emailInput = document.getElementById('email');
 const URL = 'http://localhost:3000/api/cameras/';
-
-const items = { ...localStorage };
-console.log(items);
-
-
-
-if (items === "") {
+//creating a constant for the local storage array
+const items = localStorage;
+const numberOfItems = items.length;
+//checking to see if there are any items in local storage
+if (numberOfItems === 0) {
 	cartTitle.textContent = 'There are no items in your cart';
 	cartCard.remove();
 	cartForm.remove();
 } else {
+	//if theere are items in local storag then display 
 	cartTitle.textContent = 'Items in your cart:';	
 	
-	// Prepare openweathermap.org request
+	// Prepare XML request
 	let apiRequest = new XMLHttpRequest();
 
 	/* 
 	* Capture and handle form submit event
 	* Prevent default behaviour, prepare and send API request
 	*/
+	
 	apiRequest.open('GET', URL);
 	apiRequest.send();
 
@@ -44,19 +44,16 @@ if (items === "") {
 			  
 			}
 			let response = JSON.parse(apiRequest.response);	
-			for (var j = 0; j < items.length; j++) {
-				if (response._id === reponse._id) {
-					for (var i = 0; i < items.length; i++) {			
-						cartName[i].textContent = response[i].name;		
-						cartPrice[i].textContent = "product.html#" + response[i]._id;
-						cartImg[i].src = response[i].imageUrl;
-					}
-				} 
-			}
-		};
-	}
-}
+			
+			cartName
+			
 	
+		}
+				
+	};
+} 
+
+/*
 cartSubmit.addEventListener('click', ($event) => {
   $event.preventDefault();
   const postData = {
@@ -89,4 +86,4 @@ function makeRequest(data) {
     apiRequest.setRequestHeader('Content-Type', 'application/json');
     apiRequest.send(JSON.stringify(data));
   });
-}
+} */

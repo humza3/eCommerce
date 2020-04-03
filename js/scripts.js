@@ -25,7 +25,7 @@ apiRequest.onreadystatechange = () => {
 	for (var i = 0; i < response.length; i++) {			
 		reportName[i].textContent = response[i].name;		
 		reportDesc[i].textContent = response[i].description;
-		reportLink[i].href = "product.html#" + response[i]._id;
+		reportLink[i].href = "product.html?id=" + response[i]._id;
 		reportImg[i].src = response[i].imageUrl;
 	}
 	
