@@ -4,6 +4,7 @@ const cartPrice = document.getElementById('cart-price');
 const cartSubmit = document.getElementById('cart-submit');
 const cartTitle = document.getElementById('title');
 const cartCard = document.getElementById('card');
+const cartProductArea = document.getElementById('main-product-area');
 const cartForm = document.getElementById('form_1');
 const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
@@ -14,12 +15,19 @@ const URL = 'http://localhost:3000/api/cameras/';
 //creating a constant for the local storage array
 const items = localStorage;
 const numberOfItems = items.length;
+
+
 //checking to see if there are any items in local storage
 if (numberOfItems === 0) {
 	cartTitle.textContent = 'There are no items in your cart';
 	cartCard.remove();
 	cartForm.remove();
 } else {
+	for (let i = 0; i < numberOfItems; i++){
+		let clone = cartCard.cloneNode(true);
+		clone.setAttribute('id', 'card' + i);
+		cartProductArea.appendChild( clone );
+	}
 	//if theere are items in local storag then display 
 	cartTitle.textContent = 'Items in your cart:';	
 	
@@ -42,16 +50,22 @@ if (numberOfItems === 0) {
 				cartPrice.textContent = 'Price Not Found!';
 				cartSubmit.href = 'confirmation.html';
 			  
-			}
-			let response = JSON.parse(apiRequest.response);	
+			} 
+			const response = JSON.parse(apiRequest.response);	
 			
-			cartName
-			
-	
-		}
-				
+			for (let i in response){					
+					let itemsInCart = localStorage.getItem(response[i]._id);
+					if(response[i]._id == itemsInCart){
+						cartCard.cloneNode(itemsInCart);
+						cartName.textContent = response[i].name;	
+						cartPrice.textContent = "Price: " + response[i].price;	
+						cartImg.src = response[i].imageUrl;					
+					} 
+			}			
+		}				
 	};
 } 
+
 
 /*
 cartSubmit.addEventListener('click', ($event) => {
