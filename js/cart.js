@@ -17,18 +17,13 @@ const URL = 'http://localhost:3000/api/cameras/';
 const items = localStorage;
 const numberOfItems = items.length;
 
-
 //checking to see if there are any items in local storage
 if (numberOfItems === 0) {
 	cartTitle.textContent = 'There are no items in your cart';
-	cartCard.remove();
+	cartProductArea.remove();
 	cartForm.remove();
 } else {
-	for (let i = 1; i < numberOfItems; i++){
-		let clone = cartCard.cloneNode(true);
-		clone.setAttribute('id', 'card' + i);
-		cartProductArea.appendChild( clone );
-	}
+	
 	//if theere are items in local storag then display 
 	cartTitle.textContent = 'Items in your cart:';	
 	
@@ -53,25 +48,31 @@ if (numberOfItems === 0) {
 				}
 				cartSubmit.href = 'confirmation.html';
 			} 
-			const response = JSON.parse(apiRequest.response);	
-			for (let i in response){	
-console.log(i);
-console.log(response);			
-					let itemsInCart = localStorage.getItem(response[i]._id);
-					console.log(itemsInCart);
-					if(response[i]._id == itemsInCart){
-						console.log(cartName[i]);
-						//cartName[i].textContent = response[i].name;	
-						//cartPrice[i].textContent = "Price: " + response[i].price;						
-						cartImg[i].src = response[i].imageUrl;
-						for (let j = 0; j < response[i].lenses.length; j++) {
-							let lens = document.createElement("option");
-							lens.textContent = response[i].lenses[j];
-							lens.value = response[i].lenses[j];
-							cartLens[i].appendChild(lens);
+			const response = JSON.parse(apiRequest.response);
+			for (let k in Object.entries(localStorage)){				
+				console.log(localStorage.key(k));
+				let clone = cartCard.cloneNode(true);
+				let productId = localStorage.key(k);
+				clone.setAttribute('id', productId);
+				cartProductArea.appendChild( clone );
+				cartCard.remove();
+				for(let l = 0; l < response.length; l++){ 
+							
+					console.log(response.length);
+					if(response[l]._id == productId){	
+					cartName[l].textContent = response[l].name;	
+					cartPrice[l].textContent = "Price: " + response[l].price;						
+					cartImg[l].src = response[l].imageUrl;
+					for (let j = 0; j < response[l].lenses.length; j++) {
+						let lens = document.createElement("option");
+						lens.textContent = response[l].lenses[j];
+						lens.value = response[l].lenses[j];
+						cartLens[l].appendChild(lens);
 						}
-					} 
-			}			
+					}
+				}
+			}
+			
 		}				
 	};
 } 
