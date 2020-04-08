@@ -1,4 +1,4 @@
-const cartName = document.getElementsByClassName('cart-title');
+const cartName = document.getElementsByClassName('cart-name');
 const cartImg = document.getElementsByClassName('cart-img');
 const cartPrice = document.getElementsByClassName('cart-price');
 const cartLens = document.getElementsByClassName('lenses');
@@ -16,65 +16,60 @@ const URL = 'http://localhost:3000/api/cameras/';
 //creating a constant for the local storage array
 const items = localStorage;
 const numberOfItems = items.length;
-
 //checking to see if there are any items in local storage
 if (numberOfItems === 0) {
 	cartTitle.textContent = 'There are no items in your cart';
 	cartProductArea.remove();
 	cartForm.remove();
 } else {
+	for (let k in Object.entries(localStorage)){	
+		let clone = cartCard.cloneNode(true);
+		let productId = localStorage.key(k);
+		clone.setAttribute('id', productId);
+		cartProductArea.appendChild( clone );
+		cartCard.remove();
 	
-	//if theere are items in local storag then display 
-	cartTitle.textContent = 'Items in your cart:';	
+		//if theere are items in local storag then display 
+		cartTitle.textContent = 'Items in your cart:';	
 	
-	// Prepare XML request
-	let apiRequest = new XMLHttpRequest();
+		// Prepare XML request
+		let apiRequest = new XMLHttpRequest();
 
-	/* 
-	* Capture and handle form submit event
-	* Prevent default behaviour, prepare and send API request
-	*/
-	
-	apiRequest.open('GET', URL);
-	apiRequest.send();
+		/* 
+		* Capture and handle form submit event
+		* Prevent default behaviour, prepare and send API request
+		*/
+		
+		apiRequest.open('GET', URL);
+		apiRequest.send();
 
-	apiRequest.onreadystatechange = () => {
-		if(apiRequest.readyState === 4) {
-			if(apiRequest.status = 404) {
-				for(let i = 0; i < cartImg.length; i++){
-				cartName[i].textContent = 'Name Not Found!';
-				cartImg[i].src = 'images/vcam_1.jpg';	  
-				cartPrice[i].textContent = 'Price Not Found!';
-				}
-				cartSubmit.href = 'confirmation.html';
-			} 
-			const response = JSON.parse(apiRequest.response);
-			for (let k in Object.entries(localStorage)){				
-				console.log(localStorage.key(k));
-				let clone = cartCard.cloneNode(true);
-				let productId = localStorage.key(k);
-				clone.setAttribute('id', productId);
-				cartProductArea.appendChild( clone );
-				cartCard.remove();
+		apiRequest.onreadystatechange = () => {
+			if(apiRequest.readyState === 4) {	
+				if(apiRequest.status = 404) {
+					for(i = 0; i < numberOfItems; i++) {
+					cartName[i].textContent = 'Name Not Found!';
+					cartImg[i].src = 'images/vcam_1.jpg';	  
+					cartPrice[i].textContent = 'Price Not Found!';
+					}
+					cartSubmit.href = 'confirmation.html';
+				} 			
+				const response = JSON.parse(apiRequest.response);				
 				for(let l = 0; l < response.length; l++){ 
-							
-					console.log(response.length);
-					if(response[l]._id == productId){	
+					if(response[l]._id == localStorage.getItem(localStorage.key(k))){
 					cartName[l].textContent = response[l].name;	
-					cartPrice[l].textContent = "Price: " + response[l].price;						
 					cartImg[l].src = response[l].imageUrl;
 					for (let j = 0; j < response[l].lenses.length; j++) {
 						let lens = document.createElement("option");
 						lens.textContent = response[l].lenses[j];
-						lens.value = response[l].lenses[j];
+						cartPrice[l].textContent = "Price: " + response[l].price;						
+					lens.value = response[l].lenses[j];
 						cartLens[l].appendChild(lens);
 						}
 					}
-				}
-			}
-			
-		}				
-	};
+				}			
+			}				
+		};
+	}
 } 
 
 
