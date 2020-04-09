@@ -1,8 +1,16 @@
+const cartButton = document.getElementById('cart-button');
 const reportName = document.getElementsByClassName('card-title');
 const reportDesc = document.getElementsByClassName('card-text');
 const reportLink = document.getElementsByClassName('card-link');
 const reportImg = document.getElementsByClassName('card-img-top');
 const URL = 'http://localhost:3000/api/cameras';
+const items = Object.entries(localStorage);
+const numberOfItems = items.length;
+
+if(numberOfItems != 0) {
+	cartButton.textContent = "(" + numberOfItems + ") Cart";
+}
+
 // Prepare openweathermap.org request
 let apiRequest = new XMLHttpRequest();
 

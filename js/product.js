@@ -1,3 +1,4 @@
+const cartButton = document.getElementById('cart-button');
 const prodName = document.getElementById('prod-title');
 const prodImg = document.getElementById('prod-img');
 const prodPrice = document.getElementById('prod-price');
@@ -5,6 +6,13 @@ const prodDesc = document.getElementById('prod-desc');
 const prodLens = document.getElementById('prod-lens');
 const prodId = document.getElementById('prod-id');
 const prodBody = document.getElementById('prod-body');
+const items = Object.entries(localStorage);
+const numberOfItems = items.length;
+if(numberOfItems != 0) {
+	cartButton.textContent = "(" + numberOfItems + ") Cart";
+}
+
+
 //take query parameter id to help display product
 function queryString(obj) {  
     const result = [];
