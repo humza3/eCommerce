@@ -15,6 +15,10 @@ function queryString(obj) {
     }
     return result;
 }
+function financial(y) {
+	let price= y/100;
+	return parseFloat(price).toFixed(2);	
+}
 
 const x = queryString("id")[0];
 const URL = 'http://localhost:3000/api/cameras/' + x;
@@ -46,7 +50,7 @@ if (x === "") {
 		}
 			const response = JSON.parse(apiRequest.response);	
 			prodName.textContent = response.name; 
-			prodPrice.textContent = "Price: £" + response.price;
+			prodPrice.textContent = "Price: £" + financial(response.price);
 			prodDesc.textContent = response.description;
 			prodLens.textContent = response.lenses;
 			prodId.href = 'cart.html#' + response._id;	

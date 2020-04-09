@@ -16,12 +16,20 @@ const URL = 'http://localhost:3000/api/cameras/';
 //creating a constant for the local storage array
 const items = localStorage;
 const numberOfItems = items.length;
+
+function financial(y) {
+	let price= y/100;
+	return parseFloat(price).toFixed(2);	
+}
+
+
 //checking to see if there are any items in local storage
 if (numberOfItems === 0) {
 	cartTitle.textContent = 'There are no items in your cart';
 	cartProductArea.remove();
 	cartForm.remove();
 } else {
+	
 	for (let k in Object.entries(localStorage)){	
 		let clone = cartCard.cloneNode(true);
 		let productId = localStorage.key(k);
@@ -62,7 +70,7 @@ if (numberOfItems === 0) {
 						let lens = document.createElement("option");
 						lens.textContent = response[l].lenses[j];
 						cartPrice[l].textContent = "Price: " + response[l].price;						
-					lens.value = response[l].lenses[j];
+						lens.value = response[l].lenses[j];
 						cartLens[l].appendChild(lens);
 						}
 					}
