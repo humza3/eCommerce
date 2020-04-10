@@ -10,6 +10,19 @@ if (x === "") {
 	confTitle.textContent = 'You have not Purchased an item';
 	confCard.remove();
 } else {
+//take query parameter id to help display product
+function queryString(obj) {  
+    const result = [];
+    let match;
+    const re = new RegExp('(?:\\?|&)' + obj + '=(.*?)(?=&|$)', 'gi');
+    while ((match = re.exec(document.location.search)) !== null) {
+        result.push(match[1]);
+    }
+    return result;
+}
+const orderNumber = queryString("id")[0];
+
+localStorage.clear();
 // Prepare openweathermap.org request
 let apiRequest = new XMLHttpRequest();
 

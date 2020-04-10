@@ -53,7 +53,6 @@ if (x === "") {
 			prodPrice.textContent = 'Price Not Found!';
 			prodDesc.textContent = 'Description Not Found!';
 			prodLens.textContent = 'Lenses Not Found!';
-			prodId.href = 'cart.html';
 		  
 		}
 			const response = JSON.parse(apiRequest.response);	
@@ -61,13 +60,12 @@ if (x === "") {
 			prodPrice.textContent = "Price: £" + financial(response.price);
 			prodDesc.textContent = response.description;
 			prodLens.textContent = response.lenses;
-			prodId.href = 'cart.html#' + response._id;	
+			prodId.href = 'product.html?id=' + response._id;	
 			prodImg.src = response.imageUrl;	 
 		}
 	};
 }
 
 prodId.addEventListener('click', ($event) => {
-	$event.preventDefault();
 	localStorage.setItem(x,x);
 });

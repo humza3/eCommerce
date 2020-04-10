@@ -13,7 +13,7 @@ const URL = 'http://localhost:3000/api/cameras/';
 //creating a constant for the local storage array
 const items = Object.entries(localStorage);
 const numberOfItems = items.length;
-
+const orderNumber = Math.floor(100000000 + Math.random() * 900000000);
 function financial(y) {
 	let price= y/100;
 	return parseFloat(price).toFixed(2);	
@@ -40,6 +40,8 @@ if (numberOfItems === 0) {
 		let newH5Name = document.createElement("h5");
 		let newH6Price = document.createElement("h6");
 		let newLens = document.createElement("select");
+		let removeButton = document.createElement("a");
+		let lineBreak = document.createElement("br");
 		//making div which holds image and text of product
 		newDiv.setAttribute('id', productId);
 		newDiv.setAttribute('class', "card flex-row flex-wrap");	
@@ -49,7 +51,7 @@ if (numberOfItems === 0) {
 		newDiv.appendChild(newDivImgHolder);
 		newImg.setAttribute("id", "img" + productId);
 		newImg.setAttribute("class", "img" + productId);
-		newImg.setAttribute("height", "100");
+		newImg.setAttribute("height", "120");
 		newDivImgHolder.appendChild(newImg);		
 		//making div which holds text of product
 		newTextHolder.setAttribute('class', "card-block px-2");
@@ -63,6 +65,17 @@ if (numberOfItems === 0) {
 		newLens.setAttribute('id', "lens" + productId);
 		newLens.setAttribute('class', "lens" + productId);
 		newTextHolder.appendChild(newLens);
+		//making lew line
+		newTextHolder.appendChild(lineBreak);
+		//making remove button
+		removeButton.setAttribute('id', "remove" + productId);
+		removeButton.setAttribute('class',  "btn btn-outline-danger ml-1 my-2 p-1");
+		removeButton.href = "cart.html";
+		removeButton.textContent = "Remove";		
+		newTextHolder.appendChild(removeButton);
+		removeButton.addEventListener('click', ($event) => {
+			localStorage.removeItem(productId);
+		});
 		
 		let cartName = document.getElementById("name" + productId);
 		let cartPrice =  document.getElementById("price" + productId);
@@ -95,7 +108,7 @@ if (numberOfItems === 0) {
 				} 			
 				const response = JSON.parse(apiRequest.response);
 				cartName.textContent = response.name;
-				cartPrice.textContent = response.price;
+				cartPrice.textContent = "£" + financial(response.price);
 				cartImg.src = response.imageUrl;
 				for(let i = 0; i < response.lenses.length; i++) {
 					let lens = document.createElement("option");
@@ -107,19 +120,20 @@ if (numberOfItems === 0) {
 		};
 	}
 } 
-
-/*
+console.log(items);
 cartSubmit.addEventListener('click', ($event) => {
   $event.preventDefault();
-  const postData = {
+  const contact = {
 	
     firstName: firstNameInput.value,
     lastName: lastNameInput.value,
 	address: addressInput.value,
 	city: cityInput.value,
 	email: emailInput.value
+	
   };
-  makeRequest(postData);
+  const products = items;
+  makeRequest(contactObject);
 });
 
 function makeRequest(data) {	
@@ -131,7 +145,7 @@ function makeRequest(data) {
         if (apiRequest.status === 201) {
 			console.log(apiRequest.response);
 			resolve(JSON.parse(apiRequest.response));		  
-			cartForm.action = 'confirmation.html#' + JSON.parse(apiRequest.response)._id;
+			cartForm.action = 'confirmation.html?id=' + orderNumber;
         } else {
 			reject(JSON.parse(apiRequest.response));		  
 			console.log("im rejected");
@@ -141,4 +155,4 @@ function makeRequest(data) {
     apiRequest.setRequestHeader('Content-Type', 'application/json');
     apiRequest.send(JSON.stringify(data));
   });
-} */
+}
