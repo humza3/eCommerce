@@ -64,6 +64,7 @@ if (numberOfItems === 0) {
 		newTextHolder.appendChild(newH6Price);
 		newLens.setAttribute('id', "lens" + productId);
 		newLens.setAttribute('class', "lens" + productId);
+		newLens.setAttribute('value', localStorage.getItem(productId));
 		newTextHolder.appendChild(newLens);
 		//making lew line
 		newTextHolder.appendChild(lineBreak);
@@ -108,38 +109,48 @@ if (numberOfItems === 0) {
 				} 			
 				const response = JSON.parse(apiRequest.response);
 				cartName.textContent = response.name;
-				cartPrice.textContent = "£" + financial(response.price);
+				cartPrice.textContent = "$" + financial(response.price);
 				cartImg.src = response.imageUrl;
 				for(let i = 0; i < response.lenses.length; i++) {
 					let lens = document.createElement("option");
+					if (response.lenses[i] ==  localStorage.getItem(productId)){
+						lens.setAttribute('selected', "selected");
+					}
 					lens.textContent = response.lenses[i];					
 					lens.value = response.lenses[i];
 					cartLens.appendChild(lens);
 				}
 			}				
 		};
+		
 	}
 } 
-console.log(items);
+const productArray = [];
+for (var i = 0; i < localStorage.length; i++) {
+    var key   = localStorage.key(i);
+    var value = localStorage.getItem(key);
+	productArray.push(key);
+}	
+
 cartSubmit.addEventListener('click', ($event) => {
   $event.preventDefault();
-  const contact = {
-	
+  const contact = {	
     firstName: firstNameInput.value,
     lastName: lastNameInput.value,
 	address: addressInput.value,
 	city: cityInput.value,
 	email: emailInput.value
-	
-  };
-  const products = items;
-  makeRequest(contactObject);
+  }  
+  const products = productArray;
+  const orderCameras = [contact, products];
+  console.log(orderCameras);
+  makeRequest(orderCameras);
 });
 
 function makeRequest(data) {	
   return new Promise((resolve, reject) => {
 	let apiRequest = new XMLHttpRequest();	
-    apiRequest.open('POST', URL + '/order');
+    apiRequest.open('POST', URL + 'order');
     apiRequest.onreadystatechange = () => {
       if (apiRequest.readyState === 4) {
         if (apiRequest.status === 201) {

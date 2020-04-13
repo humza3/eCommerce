@@ -57,15 +57,21 @@ if (x === "") {
 		}
 			const response = JSON.parse(apiRequest.response);	
 			prodName.textContent = response.name; 
-			prodPrice.textContent = "Price: £" + financial(response.price);
+			prodPrice.textContent = "Price: $" + financial(response.price);
 			prodDesc.textContent = response.description;
-			prodLens.textContent = response.lenses;
+			for(let i = 0; i < response.lenses.length; i++) {
+					const lens = document.createElement("option");
+					lens.textContent = response.lenses[i];					
+					lens.value = response.lenses[i];
+					prodLens.appendChild(lens);
+			}
 			prodId.href = 'product.html?id=' + response._id;	
 			prodImg.src = response.imageUrl;	 
 		}
 	};
 }
 
+console.log(prodLens.value);
 prodId.addEventListener('click', ($event) => {
-	localStorage.setItem(x,x);
+	localStorage.setItem(x, prodLens.value);
 });
