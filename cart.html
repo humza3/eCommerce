@@ -31,7 +31,7 @@
 					</div>
 				</div>
 				<div class="col-6">
-				<form id="form_1" action="confirmation.html" novalidate success-msg="order-confirmed" fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!">
+				<form id="form_1" action="confirmation.html" name='registration' onSubmit="return formValidation();" fail-msg="Sorry it seems that our mail server is not responding, Sorry for the inconvenience!">
 					<div class="form-group">
 						<label for="firstName">
 							First Name
@@ -62,7 +62,7 @@
 						</label>
 						<input id="email" class="form-control" type="email" required />
 					</div>
-					<button class="btn btn-outline-success my-2 my-sm-0" id="cart-submit" type="submit">
+					<button class="btn btn-outline-success my-2 my-sm-0" id="cart-submit"  type="submit">
 						Buy Now
 					</button>
 				</form>

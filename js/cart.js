@@ -125,13 +125,78 @@ if (numberOfItems === 0) {
 		
 	}
 } 
+
+function formValidation()
+{
+if(allLetter(firstNameInput))
+{
+	if(allLetter(lastNameInput)) 
+	{
+		if(alphanumeric(addressInput)) 
+		{ 
+			if(allLetter(cityInput)) 
+			{ 
+				if(ValidateEmail(uemail))
+				{
+				} 
+			}
+		} 
+	}
+}
+return false;
+}
+
+
+function allLetter(textName)
+{ 
+	let letters = /^[A-Za-z]+$/;
+	if(textName.value.match(letters))
+	{
+		return true;
+	}
+	else
+	{
+		alert('Username must have alphabet characters only');
+		textName.focus();
+		return false;
+	}
+}
+function alphanumeric(textAdd)
+{ 
+	var letters = /^[0-9a-zA-Z]+$/;
+	if(text.value.match(letters))
+	{
+		return true;
+	}
+	else
+	{
+		alert('User address must have alphanumeric characters only');
+		textAdd.focus();
+		return false;
+	}
+}
+function ValidateEmail(textEmail)
+{
+	let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	if(textEmail.value.match(mailformat))
+	{
+		return true;	
+	}
+	else
+	{
+		alert("You have entered an invalid email address!");
+		textEmail.focus();
+		return false;
+	}
+} 
+
+
+
 const productArray = [];
 for (var i = 0; i < localStorage.length; i++) {
     var key   = localStorage.key(i);
-    var value = localStorage.getItem(key);
 	productArray.push(key);
-}	
-
+}
 cartSubmit.addEventListener('click', ($event) => {
   $event.preventDefault();
   const contact = {	
@@ -142,9 +207,10 @@ cartSubmit.addEventListener('click', ($event) => {
 	email: emailInput.value
   }  
   const products = productArray;
-  const orderCameras = [contact, products];
-  console.log(orderCameras);
-  makeRequest(orderCameras);
+  const postData = {'contact': contact,
+						'products' : products};
+  console.log(postData);
+  makeRequest(postData);
 });
 
 function makeRequest(data) {	
@@ -156,7 +222,7 @@ function makeRequest(data) {
         if (apiRequest.status === 201) {
 			console.log(apiRequest.response);
 			resolve(JSON.parse(apiRequest.response));		  
-			cartForm.action = 'confirmation.html?id=' + orderNumber;
+			window.location.replace('confirmation.html?id=' + JSON.parse(apiRequest.response).orderId);
         } else {
 			reject(JSON.parse(apiRequest.response));		  
 			console.log("im rejected");
