@@ -14,6 +14,7 @@ const URL = 'http://localhost:3000/api/cameras/';
 const items = Object.entries(localStorage);
 const numberOfItems = items.length;
 const orderNumber = Math.floor(100000000 + Math.random() * 900000000);
+//display price correctly by dividing by 100 displaying it with with two decimal points 
 function financial(y) {
 	let price= y/100;
 	return parseFloat(price).toFixed(2);	
@@ -89,7 +90,7 @@ if (numberOfItems === 0) {
 			cartTitle.textContent = 'There are ' + numberOfItems + ' Cameras in your cart:';	
 		}
 		
-		// Prepare XML request
+		// Prepare API request
 		let apiRequest = new XMLHttpRequest();
 
 		/* 
@@ -125,7 +126,7 @@ if (numberOfItems === 0) {
 		
 	}
 } 
-
+//form validation below
 function formValidation()
 {
 if(allLetter(firstNameInput))
@@ -191,7 +192,7 @@ function ValidateEmail(textEmail)
 } 
 
 
-
+//the productsid from local storage are placed back in to an array
 const productArray = [];
 for (var i = 0; i < localStorage.length; i++) {
     var key   = localStorage.key(i);
@@ -199,6 +200,7 @@ for (var i = 0; i < localStorage.length; i++) {
 }
 cartSubmit.addEventListener('click', ($event) => {
   $event.preventDefault();
+  //contact details are put into an contact object
   const contact = {	
     firstName: firstNameInput.value,
     lastName: lastNameInput.value,
@@ -207,6 +209,7 @@ cartSubmit.addEventListener('click', ($event) => {
 	email: emailInput.value
   }  
   const products = productArray;
+  //the contatct object and product array are grouped together 
   const postData = {'contact': contact,
 						'products' : products};
   console.log(postData);
@@ -215,6 +218,7 @@ cartSubmit.addEventListener('click', ($event) => {
 
 function makeRequest(data) {	
   return new Promise((resolve, reject) => {
+	 // Prepare API request
 	let apiRequest = new XMLHttpRequest();	
     apiRequest.open('POST', URL + 'order');
     apiRequest.onreadystatechange = () => {

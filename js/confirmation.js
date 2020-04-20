@@ -7,6 +7,7 @@ const x = window.location.hash.substr(1);
 const URL = 'http://localhost:3000/api/cameras/' + x;
 
 if (x === "") {
+	//if id is not detetected then display error page that no item is detected 
 	confTitle.textContent = 'You have not Purchased an item';
 	confCard.remove();
 } else {
@@ -21,9 +22,9 @@ function queryString(obj) {
     return result;
 }
 const orderNumber = queryString("id")[0];
-
+//once order is completed localstorage is cleared of its items
 localStorage.clear();
-// Prepare openweathermap.org request
+// Prepare API request
 let apiRequest = new XMLHttpRequest();
 
 /* 
@@ -36,12 +37,14 @@ let apiRequest = new XMLHttpRequest();
 apiRequest.onreadystatechange = () => {
   if(apiRequest.readyState === 4) {
     if(apiRequest.status = 404) {
+		//if request unsuccessful than display default text and images
 		confName.textContent = 'Name Not Found!';
 		confImg.src = 'images/vcam_1.jpg';	  
 		confPrice.textContent = 'Price Not Found!';
 	  
     }
-	const response = JSON.parse(apiRequest.response);	
+	const response = JSON.parse(apiRequest.response);
+//if request is successful then display confirmation of purchased items	
 		confName.textContent = response.name; 
 		confPrice.textContent = "Price: £" + response.price;
 		confImg.src = response.imageUrl;	 
