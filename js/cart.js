@@ -3,6 +3,7 @@ const cartSubmit = document.getElementById('cart-submit');
 const cartTitle = document.getElementById('title');
 const cartCard = document.getElementById('card');
 const cartProductArea = document.getElementById('main-product-area');
+const totalPrice = document.getElementById('totalPrice');
 const cartForm = document.getElementById('form_1');
 const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
@@ -10,6 +11,7 @@ const addressInput = document.getElementById('address');
 const cityInput = document.getElementById('city');
 const emailInput = document.getElementById('email');
 const URL = 'http://localhost:3000/api/cameras/';
+let total = 0;
 //creating a constant for the local storage array
 const items = Object.entries(localStorage);
 const numberOfItems = items.length;
@@ -112,6 +114,10 @@ if (numberOfItems === 0) {
 				cartName.textContent = response.name;
 				cartPrice.textContent = "$" + financial(response.price);
 				cartImg.src = response.imageUrl;
+				//calculating the total and stating the price
+				total += response.price;
+				totalPrice.textContent = "Total: " + "$" + financial(total);
+				
 				for(let i = 0; i < response.lenses.length; i++) {
 					let lens = document.createElement("option");
 					if (response.lenses[i] ==  localStorage.getItem(productId)){
@@ -198,6 +204,7 @@ for (var i = 0; i < localStorage.length; i++) {
     var key   = localStorage.key(i);
 	productArray.push(key);
 }
+
 cartSubmit.addEventListener('click', ($event) => {
   $event.preventDefault();
   //contact details are put into an contact object
@@ -224,9 +231,11 @@ function makeRequest(data) {
     apiRequest.onreadystatechange = () => {
       if (apiRequest.readyState === 4) {
         if (apiRequest.status === 201) {
-			console.log(apiRequest.response);
-			resolve(JSON.parse(apiRequest.response));		  
-			window.location.replace('confirmation.html?id=' + JSON.parse(apiRequest.response).orderId);
+			const response = JSON.parse(apiRequest.response);
+			console.log(response);			
+			console.log(total);
+			resolve(response);
+			window.location.replace('confirmation.html?id=' + response.orderId + '?total=' + total);
         } else {
 			reject(JSON.parse(apiRequest.response));		  
 			console.log("im rejected");
