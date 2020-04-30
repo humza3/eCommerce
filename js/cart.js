@@ -132,70 +132,49 @@ if (numberOfItems === 0) {
 		
 	}
 } 
+
+
+
 //form validation below
-function formValidation()
-{
-if(allLetter(firstNameInput))
-{
-	if(allLetter(lastNameInput)) 
-	{
-		if(alphanumeric(addressInput)) 
-		{ 
-			if(allLetter(cityInput)) 
-			{ 
-				if(ValidateEmail(uemail))
-				{
-				} 
-			}
-		} 
-	}
-}
-return false;
-}
-
-
-function allLetter(textName)
-{ 
+function validateForm(){
 	let letters = /^[A-Za-z]+$/;
-	if(textName.value.match(letters))
-	{
-		return true;
+	let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	if (firstNameInput.value.length < 1) {
+        document.getElementById('error-firstName').innerHTML = "* Please Enter Your First Name *";
+		firstNameInput.focus();
+    }
+	if(!firstNameInput.value.match(letters)) {
+		document.getElementById('error-firstName').innerHTML = "* Please Use Alphabetic Characters *";
+		firstNameInput.focus();
 	}
-	else
-	{
-		alert('Username must have alphabet characters only');
-		textName.focus();
-		return false;
+	if (lastNameInput.value.length < 1) {
+        document.getElementById('error-lastName').innerHTML = "* Please Enter Your Last Name *";
+		lastNameInput.focus();
+    }
+	if(!lastNameInput.value.match(letters)) {
+		document.getElementById('error-lastName').innerHTML = "* Please Use Alphabetic Characters *";
+		lastNameInput.focus();
 	}
+	if (addressInput.value.length < 1) {
+        document.getElementById('error-address').innerHTML = "* Please Enter Your Address *";
+		addressInput.focus();
+    }
+	if (cityInput.value.length < 1) {
+        document.getElementById('error-city').innerHTML = "* Please Enter Your City *";
+		cityInput.focus();
+    }	
+    if (emailInput.value.length < 1) {
+        document.getElementById('error-email').innerHTML = "* Please Enter Your Email *";
+		emailInput.focus();
+    }   
+	if (!emailInput.value.match(mailFormat)) {
+		document.getElementById('error-email').innerHTML = "* Please Enter A Valid Email *";
+		emailInput.focus();
+	}
+	if(firstNameInput.value.length < 1 || !firstNameInput.value.match(letters) || lastNameInput.value.length < 1 || !lastNameInput.value.match(letters) || addressInput.value.length < 1 || cityInput.value.length < 1 || emailInput.value.length < 1 || !emailInput.value.match(mailFormat)){
+       	return false;
+    }
 }
-function alphanumeric(textAdd)
-{ 
-	var letters = /^[0-9a-zA-Z]+$/;
-	if(text.value.match(letters))
-	{
-		return true;
-	}
-	else
-	{
-		alert('User address must have alphanumeric characters only');
-		textAdd.focus();
-		return false;
-	}
-}
-function ValidateEmail(textEmail)
-{
-	let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-	if(textEmail.value.match(mailformat))
-	{
-		return true;	
-	}
-	else
-	{
-		alert("You have entered an invalid email address!");
-		textEmail.focus();
-		return false;
-	}
-} 
 
 
 //the productsid from local storage are placed back in to an array
@@ -204,24 +183,26 @@ for (var i = 0; i < localStorage.length; i++) {
     var key   = localStorage.key(i);
 	productArray.push(key);
 }
-
-cartSubmit.addEventListener('click', ($event) => {
-  $event.preventDefault();
-  //contact details are put into an contact object
-  const contact = {	
-    firstName: firstNameInput.value,
-    lastName: lastNameInput.value,
+		
+cartSubmit.addEventListener('click', ($event) => {		
+	//contact details are put into an contact object
+	const contact = {	
+	firstName: firstNameInput.value,
+	lastName: lastNameInput.value,
 	address: addressInput.value,
 	city: cityInput.value,
 	email: emailInput.value
-  }  
-  const products = productArray;
-  //the contatct object and product array are grouped together 
-  const postData = {'contact': contact,
-						'products' : products};
-  console.log(postData);
-  makeRequest(postData);
+	}  
+	const products = productArray;
+	//the contatct object and product array are grouped together 
+	const postData = {'contact': contact,
+					'products' : products};
+	console.log(postData);
+	makeRequest(postData);	
 });
+		
+
+
 
 function makeRequest(data) {	
   return new Promise((resolve, reject) => {
@@ -235,7 +216,7 @@ function makeRequest(data) {
 			console.log(response);			
 			console.log(total);
 			resolve(response);
-			window.location.replace('confirmation.html?id=' + response.orderId + '?total=' + total);
+			window.location.replace('confirmation.html?id=' + response.orderId + '&total=' + total);
         } else {
 			reject(JSON.parse(apiRequest.response));		  
 			console.log("im rejected");

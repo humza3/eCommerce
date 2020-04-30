@@ -6,6 +6,7 @@ const prodDesc = document.getElementById('prod-desc');
 const prodLens = document.getElementById('prod-lens');
 const prodId = document.getElementById('prod-id');
 const prodBody = document.getElementById('prod-body');
+const error = document.getElementById('error');
 const items = Object.entries(localStorage);
 const numberOfItems = items.length;
 // disply the number of items placed inside the cart, if there are more items than 0
@@ -77,7 +78,13 @@ if (x === "") {
 	};
 }
 //once buy button is clicked the item and chosen lens is stored in local storage 
-console.log(prodLens.value);
 prodId.addEventListener('click', ($event) => {
-	localStorage.setItem(x, prodLens.value);
+	//checking to see if item already exists in the cart
+	if(x in localStorage){
+		//error message if items exists already
+		$event.preventDefault();
+		error.innerHTML = "This item is already in your cart";
+	}else {
+		localStorage.setItem(x, prodLens.value);
+	}
 });
