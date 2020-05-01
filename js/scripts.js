@@ -1,3 +1,4 @@
+const serverError = document.getElementById('serverError');
 const cartButton = document.getElementById('cart-button');
 const reportName = document.getElementsByClassName('card-title');
 const reportDesc = document.getElementsByClassName('card-text');
@@ -24,13 +25,16 @@ let apiRequest = new XMLHttpRequest();
 apiRequest.onreadystatechange = () => {
   if(apiRequest.readyState === 4) {
     if(apiRequest.status = 404) {
-		//if request unsuccessful than display default text and images
+		//if request unsuccessful than display default text and images and error header
+		serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
 		reportName.textContent = 'Name Not Found!';
 		reportDesc.textContent = 'Description Not Found!';
 		reportLink.href = 'product.html';
 		reportImg.src = 'images/vcam_1.jpg';	  
     }
     const response = JSON.parse(apiRequest.response);	
+	
+	serverError.innerHTML = "";
 	//if request is successful then proceed to loop through all the products in the object displaying the name, desription etc in to its own div element
 	for (var i = 0; i < response.length; i++) {			
 		reportName[i].textContent = response[i].name;		

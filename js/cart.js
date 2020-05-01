@@ -1,3 +1,4 @@
+const serverError = document.getElementById('serverError');
 const cartButton = document.getElementById('cart-button');
 const cartSubmit = document.getElementById('cart-submit');
 const cartTitle = document.getElementById('title');
@@ -105,12 +106,16 @@ if (numberOfItems === 0) {
 		apiRequest.onreadystatechange = () => {
 			if(apiRequest.readyState === 4) {	
 				if(apiRequest.status = 404) {
+					//if request unsuccessful than display default text and images and error header
+					serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
 					cartName.textContent = 'Name Not Found!';
 					cartImg.src = 'images/vcam_1.jpg';	  
 					cartPrice.textContent = 'Price Not Found!';
 					cartSubmit.href = 'confirmation.html';
 				} 			
 				const response = JSON.parse(apiRequest.response);
+				
+				serverError.innerHTML = "";
 				cartName.textContent = response.name;
 				cartPrice.textContent = "$" + financial(response.price);
 				cartImg.src = response.imageUrl;
@@ -133,47 +138,50 @@ if (numberOfItems === 0) {
 	}
 } 
 
+		const letters = /^[A-Za-z]+$/;
+		const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
 //form validation below
 function validateForm(){
-	let letters = /^[A-Za-z]+$/;
-	let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-	if (firstNameInput.value.length < 1) {
-        document.getElementById('error-firstName').innerHTML = "* Please Enter Your First Name *";
-		firstNameInput.focus();
-    }
-	if(!firstNameInput.value.match(letters)) {
-		document.getElementById('error-firstName').innerHTML = "* Please Use Alphabetic Characters *";
-		firstNameInput.focus();
-	}
-	if (lastNameInput.value.length < 1) {
-        document.getElementById('error-lastName').innerHTML = "* Please Enter Your Last Name *";
-		lastNameInput.focus();
-    }
-	if(!lastNameInput.value.match(letters)) {
-		document.getElementById('error-lastName').innerHTML = "* Please Use Alphabetic Characters *";
-		lastNameInput.focus();
-	}
-	if (addressInput.value.length < 1) {
-        document.getElementById('error-address').innerHTML = "* Please Enter Your Address *";
-		addressInput.focus();
-    }
-	if (cityInput.value.length < 1) {
-        document.getElementById('error-city').innerHTML = "* Please Enter Your City *";
-		cityInput.focus();
-    }	
-    if (emailInput.value.length < 1) {
-        document.getElementById('error-email').innerHTML = "* Please Enter Your Email *";
-		emailInput.focus();
-    }   
-	if (!emailInput.value.match(mailFormat)) {
-		document.getElementById('error-email').innerHTML = "* Please Enter A Valid Email *";
-		emailInput.focus();
-	}
-	if(firstNameInput.value.length < 1 || !firstNameInput.value.match(letters) || lastNameInput.value.length < 1 || !lastNameInput.value.match(letters) || addressInput.value.length < 1 || cityInput.value.length < 1 || emailInput.value.length < 1 || !emailInput.value.match(mailFormat)){
+		if (firstNameInput.value.length < 1) {
+			document.getElementById('error-firstName').innerHTML = "* Please Enter Your First Name *";
+			firstNameInput.focus();
+		}
+		if(firstNameInput.value.match(letters) == null) {
+			document.getElementById('error-firstName').innerHTML = "* Please Use Alphabetic Characters *";
+			firstNameInput.focus();
+		}
+		if (lastNameInput.value.length < 1) {
+			document.getElementById('error-lastName').innerHTML = "* Please Enter Your Last Name *";
+			lastNameInput.focus();
+		}
+		if(lastNameInput.value.match(letters)  == null) {
+			document.getElementById('error-lastName').innerHTML = "* Please Use Alphabetic Characters *";
+			lastNameInput.focus();
+		}
+		if (addressInput.value.length < 1) {
+			document.getElementById('error-address').innerHTML = "* Please Enter Your Address *";
+			addressInput.focus();
+		}
+		if (cityInput.value.length < 1) {
+			document.getElementById('error-city').innerHTML = "* Please Enter Your City *";
+			cityInput.focus();
+		}	
+		if (emailInput.value.length < 1) {
+			document.getElementById('error-email').innerHTML = "* Please Enter Your Email *";
+			emailInput.focus();
+		}   
+		if (emailInput.value.match(mailFormat)  == null) {
+			document.getElementById('error-email').innerHTML = "* Please Enter A Valid Email *";
+			emailInput.focus();
+		}
+	debugger;
+	if(firstNameInput.value.length < 1 || firstNameInput.value.match(letters) == null || lastNameInput.value.length < 1 || lastNameInput.value.match(letters) == null || addressInput.value.length < 1 || cityInput.value.length < 1 || emailInput.value.length < 1 || emailInput.value.match(mailFormat)  == null){
+		console.log(true);
        	return false;
     }
+	return true;
 }
 
 
@@ -184,7 +192,8 @@ for (var i = 0; i < localStorage.length; i++) {
 	productArray.push(key);
 }
 		
-cartSubmit.addEventListener('click', ($event) => {		
+cartForm.addEventListener('submit', ($event) => {	
+	if(validateForm()){
 	//contact details are put into an contact object
 	const contact = {	
 	firstName: firstNameInput.value,
@@ -199,6 +208,12 @@ cartSubmit.addEventListener('click', ($event) => {
 					'products' : products};
 	console.log(postData);
 	makeRequest(postData);	
+	} else {
+		console.log(false);
+		$event.preventDefault();
+		return false;
+		
+	}
 });
 		
 

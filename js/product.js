@@ -1,3 +1,4 @@
+const serverError = document.getElementById('serverError');
 const cartButton = document.getElementById('cart-button');
 const prodName = document.getElementById('prod-title');
 const prodImg = document.getElementById('prod-img');
@@ -52,7 +53,8 @@ if (x === "") {
 	apiRequest.onreadystatechange = () => {
 	  if(apiRequest.readyState === 4) {
 		if(apiRequest.status = 404) {
-			//if request unsuccessful than display default text and images
+		//if request unsuccessful than display default text and images and error header
+			serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
 			prodName.textContent = 'Name Not Found!';
 			prodImg.src = 'images/vcam_1.jpg';	  
 			prodPrice.textContent = 'Price Not Found!';
@@ -60,7 +62,8 @@ if (x === "") {
 			prodLens.textContent = 'Lenses Not Found!';
 		  
 		}
-			const response = JSON.parse(apiRequest.response);	
+			const response = JSON.parse(apiRequest.response);			
+			serverError.innerHTML = "";
 			//if request is successful then proceed to loop through all the products in the object displaying the name, desription etc in to its own div element
 			prodName.textContent = response.name; 
 			prodPrice.textContent = "Price: $" + financial(response.price);
@@ -83,7 +86,7 @@ prodId.addEventListener('click', ($event) => {
 	if(x in localStorage){
 		//error message if items exists already
 		$event.preventDefault();
-		error.innerHTML = "This item is already in your cart";
+		error.innerHTML = "* This Item Is Already In Your Cart *";
 	}else {
 		localStorage.setItem(x, prodLens.value);
 	}

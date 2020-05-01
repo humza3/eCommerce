@@ -5,8 +5,11 @@
 		<meta name="viewport" content="width=device-width">
 		<title>Orinoco || Product</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
+	<div class="wrapper">
+	<header id="serverError" class="text-center" style="color:red;" ></header>
 		<nav class="navbar navbar-light bg-light">
 			<a class="navbar-brand" href="index.html">
 				<img src="images/orinoco.png" height="30" alt="">
@@ -27,16 +30,21 @@
 						<h3>Product details:</h3>
 						<p class="card-text" id="prod-desc">Some text to build on the card title and make up the card's content.</p>
 						<h3>Types of Lenses</h3>
-						<select class="card-text" id="prod-lens">Some text to build on the card title and make up the card's content.</select>
-						<span id="error"><span>
-						<a class="btn btn-outline-success my-2 my-sm-0" id="prod-id" href="product.html">Add To Cart</a>
+						<select class="card-text m-3" id="prod-lens">Some text to build on the card title and make up the card's content.</select>
+						<div class="row">
+							<a class="btn btn-outline-success my-2 ml-3 my-sm-0" id="prod-id" href="product.html">Add To Cart</a>
+						</div>
+						<div class="row">
+							<span class="error m-1" id="error"><span>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>	
 		<footer class="footer bg-light text-center py-3 mt-5">
 			<p>© Orinoco</p>
 		</footer>
+		</div>
 		<script src="js/product.js"></script>
 	</body>
 </html>

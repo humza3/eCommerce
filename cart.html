@@ -5,8 +5,10 @@
 		<meta name="viewport" content="width=device-width">
 		<title>Orinoco || Cart</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
+	<header id="serverError" class="text-center" style="color:red;" ></header>
 		<nav class="navbar navbar-light bg-light">
 			<a class="navbar-brand" href="index.html">
 				<img src="images/orinoco.png" height="30" alt="">
@@ -31,25 +33,25 @@
 					</div>
 				</div>
 				<div class="col-6">
-				<form id="form_1" name="form_1" method="post" onSubmit="return validateForm()">
+				<form id="form_1" name="form_1" method="post" >
 					<div class="form-group">
-						<label for="firstName">First Name</label> <span id="error-firstName"></span>
+						<label for="firstName">First Name</label> <span class="error" id="error-firstName"></span>
 						<input id="firstName" type="text" name="firstName" class="form-control" placeholder="Enter your First Name" required />
 					</div>
 					<div class="form-group">
-						<label for="lastName">Last Name</label> <span id="error-lastName"></span>
+						<label for="lastName">Last Name</label> <span class="error" id="error-lastName"></span>
 						<input id="lastName" type="text" name="lastName" class="form-control" placeholder="Enter your Last Name" required />
 					</div>
 					<div class="form-group">
-						<label for="Address">Address</label> <span id="error-address"></span>
+						<label for="Address">Address</label> <span class="error" id="error-address"></span>
 						<input id="address" type="text" name="Address" class="form-control" placeholder="Enter your Address" required />
 					</div>
 					<div class="form-group">
-						<label for="city">City</label> <span id="error-city"></span>
+						<label for="city">City</label> <span class="error" id="error-city"></span>
 						<input id="city" type="text" name="city" class="form-control" placeholder="Enter your City" required />
 					</div>
 					<div class="form-group"> 
-						<label for="email">Your Email</label> <span id="error-email"></span>
+						<label for="email">Your Email</label> <span class="error" id="error-email"></span>
 						<input id="email" type="email" name="email" class="form-control" placeholder="Enter your Email" required />
 					</div>
 					<div class="form-group">
@@ -64,7 +66,7 @@
 			</div>
 			</div>
 		</div>		
-		<footer class="footer bg-light text-center py-3 mt-5">
+		<footer class="footer bg-light text-center py-3 mt-5 stay">
 			<p>© Orinoco</p>
 		</footer>
 		<script src="js/cart.js"></script>

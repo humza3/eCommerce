@@ -1,0 +1,15 @@
+body{
+  position: relative;
+  min-height: 100vh;
+}
+
+.stay {	
+	position: absolute;
+	bottom: 0px;
+	width:100%
+}
+
+.error {
+	color: red;
+	font-size: 12px;
+}
