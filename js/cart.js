@@ -114,7 +114,7 @@ if (numberOfItems === 0) {
 					cartSubmit.href = 'confirmation.html';
 				} 			
 				const response = JSON.parse(apiRequest.response);
-				
+				//if request is successful then the object displaying the name, desription etc in to its own div elementen proceed to loop through all the products 
 				serverError.innerHTML = "";
 				cartName.textContent = response.name;
 				cartPrice.textContent = "$" + financial(response.price);
@@ -122,7 +122,7 @@ if (numberOfItems === 0) {
 				//calculating the total and stating the price
 				total += response.price;
 				totalPrice.textContent = "Total: " + "$" + financial(total);
-				
+				//loop through the types of lens available to choose from but display the selected lens first
 				for(let i = 0; i < response.lenses.length; i++) {
 					let lens = document.createElement("option");
 					if (response.lenses[i] ==  localStorage.getItem(productId)){
@@ -137,17 +137,17 @@ if (numberOfItems === 0) {
 		
 	}
 } 
-
-		const letters = /^[A-Za-z]+$/;
-		const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
+const letters = /^[A-Za-z]+$/;
+const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 //form validation below
 function validateForm(){
+		//make sure the text typed in  to input isnt empty
 		if (firstNameInput.value.length < 1) {
 			document.getElementById('error-firstName').innerHTML = "* Please Enter Your First Name *";
 			firstNameInput.focus();
 		}
+		//make sure the input typed is letter and not number
 		if(firstNameInput.value.match(letters) == null) {
 			document.getElementById('error-firstName').innerHTML = "* Please Use Alphabetic Characters *";
 			firstNameInput.focus();
@@ -172,11 +172,11 @@ function validateForm(){
 			document.getElementById('error-email').innerHTML = "* Please Enter Your Email *";
 			emailInput.focus();
 		}   
+		//making sure the email typed is in email format and nottyped without the @ and .com at the end
 		if (emailInput.value.match(mailFormat)  == null) {
 			document.getElementById('error-email').innerHTML = "* Please Enter A Valid Email *";
 			emailInput.focus();
 		}
-	debugger;
 	if(firstNameInput.value.length < 1 || firstNameInput.value.match(letters) == null || lastNameInput.value.length < 1 || lastNameInput.value.match(letters) == null || addressInput.value.length < 1 || cityInput.value.length < 1 || emailInput.value.length < 1 || emailInput.value.match(mailFormat)  == null){
 		console.log(true);
        	return false;
@@ -191,7 +191,7 @@ for (var i = 0; i < localStorage.length; i++) {
     var key   = localStorage.key(i);
 	productArray.push(key);
 }
-		
+// the cartform listener when the sumbint button is clicked
 cartForm.addEventListener('submit', ($event) => {	
 	if(validateForm()){
 	//contact details are put into an contact object
@@ -216,9 +216,6 @@ cartForm.addEventListener('submit', ($event) => {
 	}
 });
 		
-
-
-
 function makeRequest(data) {	
   return new Promise((resolve, reject) => {
 	 // Prepare API request
@@ -231,6 +228,7 @@ function makeRequest(data) {
 			console.log(response);			
 			console.log(total);
 			resolve(response);
+			//the order id and total is kept in the address bar so it can be used later in the confirmation page
 			window.location.replace('confirmation.html?id=' + response.orderId + '&total=' + total);
         } else {
 			reject(JSON.parse(apiRequest.response));		  

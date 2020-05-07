@@ -64,7 +64,7 @@ if (x === "") {
 		}
 			const response = JSON.parse(apiRequest.response);			
 			serverError.innerHTML = "";
-			//if request is successful then proceed to loop through all the products in the object displaying the name, desription etc in to its own div element
+			//if request is successful thin the object displaying the name, desription etc in to its own div elementen proceed to loop through all the products 
 			prodName.textContent = response.name; 
 			prodPrice.textContent = "Price: $" + financial(response.price);
 			prodDesc.textContent = response.description;
