@@ -62,6 +62,8 @@ if (x === "") {
 			prodLens.textContent = 'Lenses Not Found!';
 		  
 		}
+		//check to see if x is a string
+		if (typeof x === 'string') {
 			const response = JSON.parse(apiRequest.response);			
 			serverError.innerHTML = "";
 			//if request is successful thin the object displaying the name, desription etc in to its own div elementen proceed to loop through all the products 
@@ -76,7 +78,16 @@ if (x === "") {
 					prodLens.appendChild(lens);
 			}
 			prodId.href = 'product.html?id=' + response._id;	
-			prodImg.src = response.imageUrl;	 
+			prodImg.src = response.imageUrl;	
+		} else {
+			serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
+			prodName.textContent = 'Name Not Found!';
+			prodImg.src = 'images/vcam_1.jpg';	  
+			prodPrice.textContent = 'Price Not Found!';
+			prodDesc.textContent = 'Description Not Found!';
+			prodLens.textContent = 'Lenses Not Found!';
+			
+		}			
 		}
 	};
 }

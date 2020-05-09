@@ -140,6 +140,9 @@ if (numberOfItems === 0) {
 const letters = /^[A-Za-z]+$/;
 const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
+		
+
+
 //form validation below
 function validateForm(){
 		//make sure the text typed in  to input isnt empty
@@ -194,6 +197,7 @@ for (var i = 0; i < localStorage.length; i++) {
 // the cartform listener when the sumbint button is clicked
 cartForm.addEventListener('submit', ($event) => {	
 	if(validateForm()){
+	$event.preventDefault();	
 	//contact details are put into an contact object
 	const contact = {	
 	firstName: firstNameInput.value,
@@ -215,7 +219,7 @@ cartForm.addEventListener('submit', ($event) => {
 		
 	}
 });
-		
+
 function makeRequest(data) {	
   return new Promise((resolve, reject) => {
 	 // Prepare API request
