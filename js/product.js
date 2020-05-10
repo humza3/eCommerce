@@ -62,7 +62,7 @@ if (x === "") {
 			prodLens.textContent = 'Lenses Not Found!';
 		  
 		}
-		//check to see if x is a string
+		//check to see if id is a string
 		if (typeof x === 'string') {
 			const response = JSON.parse(apiRequest.response);			
 			serverError.innerHTML = "";
