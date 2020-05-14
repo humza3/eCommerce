@@ -13,6 +13,7 @@ const cityInput = document.getElementById('city');
 const emailInput = document.getElementById('email');
 const URL = 'http://localhost:3000/api/cameras/';
 let total = 0;
+
 //creating a constant for the local storage array
 const items = Object.entries(localStorage);
 const numberOfItems = items.length;
@@ -82,61 +83,72 @@ if (numberOfItems === 0) {
 			localStorage.removeItem(productId);
 		});
 		
-		let cartName = document.getElementById("name" + productId);
-		let cartPrice =  document.getElementById("price" + productId);
-		let cartImg =  document.getElementById("img" + productId);
-		let cartLens =  document.getElementById("lens" + productId);		
+		const cartName = document.getElementById("name" + productId);
+		const cartPrice =  document.getElementById("price" + productId);
+		const cartImg =  document.getElementById("img" + productId);
+		const cartLens =  document.getElementById("lens" + productId);		
 		//if theere are items in local storag then display 
 		if(numberOfItems === 1) {
 			cartTitle.textContent = 'There is a Camera in your cart:';	
 		} else {
 			cartTitle.textContent = 'There are ' + numberOfItems + ' Cameras in your cart:';	
 		}
-		
-		// Prepare API request
-		let apiRequest = new XMLHttpRequest();
+			function getRequest (verb, address, data) {
+				return new Promise((resolve, reject) => {
+				// Prepare API request
+				let apiRequest = new XMLHttpRequest();
 
-		/* 
-		* Capture and handle form submit event
-		* Prevent default behaviour, prepare and send API request
-		*/
-		apiRequest.open('GET', URL + productId);
-		apiRequest.send();
+				/* 
+				* Capture and handle form submit event
+				* Prevent default behaviour, prepare and send API request
+				*/
+				apiRequest.open(verb, address);
+				apiRequest.send();
 
-		apiRequest.onreadystatechange = () => {
-			if(apiRequest.readyState === 4) {	
-				if(apiRequest.status = 404) {
-					//if request unsuccessful than display default text and images and error header
-					serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
-					cartName.textContent = 'Name Not Found!';
-					cartImg.src = 'images/vcam_1.jpg';	  
-					cartPrice.textContent = 'Price Not Found!';
-					cartSubmit.href = 'confirmation.html';
-				} 			
-				const response = JSON.parse(apiRequest.response);
-				//if request is successful then the object displaying the name, desription etc in to its own div elementen proceed to loop through all the products 
-				serverError.innerHTML = "";
-				cartName.textContent = response.name;
-				cartPrice.textContent = "$" + financial(response.price);
-				cartImg.src = response.imageUrl;
-				//calculating the total and stating the price
-				total += response.price;
-				totalPrice.textContent = "Total: " + "$" + financial(total);
-				//loop through the types of lens available to choose from but display the selected lens first
-				for(let i = 0; i < response.lenses.length; i++) {
-					let lens = document.createElement("option");
-					if (response.lenses[i] ==  localStorage.getItem(productId)){
-						lens.setAttribute('selected', "selected");
-					}
-					lens.textContent = response.lenses[i];					
-					lens.value = response.lenses[i];
-					cartLens.appendChild(lens);
-				}
-			}				
-		};
-		
+				apiRequest.onreadystatechange = () => {
+					if(apiRequest.readyState === 4) {				
+						const response = JSON.parse(apiRequest.response);
+						if(apiRequest.status === 200 || apiRequest.status === 201) {
+							resolve(response);
+							//if request is successful then the object displaying the name, desription etc in to its own div elementen proceed to loop through all the products 
+							serverError.innerHTML = "";
+							cartName.textContent = response.name;
+							cartPrice.textContent = "$" + financial(response.price);
+							cartImg.src = response.imageUrl;
+							//calculating the total and stating the price
+							total += response.price;
+							totalPrice.textContent = "Total: " + "$" + financial(total);
+							//loop through the types of lens available to choose from but display the selected lens first
+							for(let i = 0; i < response.lenses.length; i++) {
+								let lens = document.createElement("option");
+								if (response.lenses[i] ==  localStorage.getItem(productId)){
+									lens.setAttribute('selected', "selected");
+								}
+								lens.textContent = response.lenses[i];					
+								lens.value = response.lenses[i];
+								cartLens.appendChild(lens);
+							}
+							
+						} 	else {
+							reject(response);	
+							//if request unsuccessful than display default text and images and error header
+							serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
+							cartName.textContent = 'Name Not Found!';
+							cartImg.src = 'images/vcam_1.jpg';	  
+							cartPrice.textContent = 'Price Not Found!';
+							cartSubmit.href = 'confirmation.html';					
+						}		
+						
+					}				
+				};
+			});
+		}
+		getRequest('GET', URL + productId);		
 	}
 } 
+
+
+
 const letters = /^[A-Za-z]+$/;
 const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
