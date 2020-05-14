@@ -32,6 +32,7 @@ apiRequest.onreadystatechange = () => {
 		reportLink.href = 'product.html';
 		reportImg.src = 'images/vcam_1.jpg';	  
     }
+	
     const response = JSON.parse(apiRequest.response);	
 	
 	serverError.innerHTML = "";
