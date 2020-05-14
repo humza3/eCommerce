@@ -52,42 +52,43 @@ if (x === "") {
 
 	apiRequest.onreadystatechange = () => {
 	  if(apiRequest.readyState === 4) {
-		if(apiRequest.status = 404) {
-		//if request unsuccessful than display default text and images and error header
-			serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
-			prodName.textContent = 'Name Not Found!';
-			prodImg.src = 'images/vcam_1.jpg';	  
-			prodPrice.textContent = 'Price Not Found!';
-			prodDesc.textContent = 'Description Not Found!';
-			prodLens.textContent = 'Lenses Not Found!';
-		  
-		}
-		//check to see if id is a string
-		if (typeof x === 'string') {
-			const response = JSON.parse(apiRequest.response);			
-			serverError.innerHTML = "";
-			//if request is successful thin the object displaying the name, desription etc in to its own div elementen proceed to loop through all the products 
-			prodName.textContent = response.name; 
-			prodPrice.textContent = "Price: $" + financial(response.price);
-			prodDesc.textContent = response.description;
-			//create loop to display the lenses in a option element
-			for(let i = 0; i < response.lenses.length; i++) {
-					const lens = document.createElement("option");
-					lens.textContent = response.lenses[i];					
+		if(apiRequest.status === 200 || apiRequest.status === 201) {			
+			//if request is successful then the object displaying the name, desription etc in to its own div elementen proceed to loop through all the products 
+			//check to see if id is a string
+			if (typeof x === 'string') {
+				const response = JSON.parse(apiRequest.response);			
+				serverError.innerHTML = "";
+				prodName.textContent = response.name; 
+				prodPrice.textContent = "Price: $" + financial(response.price);
+				prodDesc.textContent = response.description;
+				//create loop to display the lenses in a option element
+				for(let i = 0; i < response.lenses.length; i++) {
+						const lens = document.createElement("option");
+						lens.textContent = response.lenses[i];					
+							prodLens.appendChild(lens);
 					lens.value = response.lenses[i];
-					prodLens.appendChild(lens);
-			}
-			prodId.href = 'product.html?id=' + response._id;	
-			prodImg.src = response.imageUrl;	
+				}
+				prodId.href = 'product.html?id=' + response._id;	
+				prodImg.src = response.imageUrl;	
+			} else {
+				serverError.innerHTML = "There is a problem with the server's response, please contact the administrator on orinoco@example.com";
+				prodName.textContent = 'Name Not Found!';
+				prodImg.src = 'images/vcam_1.jpg';	  
+				prodPrice.textContent = 'Price Not Found!';
+				prodDesc.textContent = 'Description Not Found!';
+				prodLens.textContent = 'Lenses Not Found!';
+				
+			}		
 		} else {
+			//if request unsuccessful than display default text and images and error header
 			serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
 			prodName.textContent = 'Name Not Found!';
 			prodImg.src = 'images/vcam_1.jpg';	  
 			prodPrice.textContent = 'Price Not Found!';
 			prodDesc.textContent = 'Description Not Found!';
 			prodLens.textContent = 'Lenses Not Found!';
-			
-		}			
+		
+		}		
 		}
 	};
 }

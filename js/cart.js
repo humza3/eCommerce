@@ -132,7 +132,7 @@ if (numberOfItems === 0) {
 						} 	else {
 							reject(response);	
 							//if request unsuccessful than display default text and images and error header
-							serverError.innerHTML = "There is a problem with the server's response, please refresh your page";
+							serverError.innerHTML = "There is a problem with the server's response, please contact the administrator on orinoco@example.com";
 							cartName.textContent = 'Name Not Found!';
 							cartImg.src = 'images/vcam_1.jpg';	  
 							cartPrice.textContent = 'Price Not Found!';
@@ -239,7 +239,7 @@ function makeRequest(data) {
     apiRequest.open('POST', URL + 'order');
     apiRequest.onreadystatechange = () => {
       if (apiRequest.readyState === 4) {
-        if (apiRequest.status === 201) {
+        if (apiRequest.status === 200 || apiRequest.status === 201) {
 			const response = JSON.parse(apiRequest.response);
 			console.log(response);			
 			console.log(total);
